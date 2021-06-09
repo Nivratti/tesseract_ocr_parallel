@@ -25,7 +25,7 @@ def initialize_worker():
     global tess_api
     tess_api = PyTessBaseAPI()  # initialize a copy for this instance
 
-def execute(image):
+def ocr(image):
     if isinstance(image, str):
         tess_api.SetImageFile(image)
     else:
@@ -49,7 +49,7 @@ def main():
     image_list = [img_path] * repeat
 
     with multiprocessing.Pool(total_cpu_cores, initializer=initialize_worker) as p:
-        for result in p.imap_unordered(execute, image_list):
+        for result in p.imap_unordered(ocr, image_list):
             print(result)
             pass
 
