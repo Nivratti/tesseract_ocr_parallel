@@ -48,7 +48,7 @@ def main():
 
     image_list = [img_path] * repeat
 
-    with multiprocessing.Pool(total_cpu_cores, initializer=initialize_worker) as p:
+    with multiprocessing.Pool(processes=total_cpu_cores, initializer=initialize_worker) as p:
         for result in p.imap_unordered(ocr, image_list):
             print(result)
             pass
