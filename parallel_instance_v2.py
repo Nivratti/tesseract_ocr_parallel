@@ -33,7 +33,7 @@ def main():
     img_path = 'images/num.png'
 
     ## How many times to repeat single item
-    repeat = 200
+    repeat = 30
 
     image_list = [img_path] * repeat
 
