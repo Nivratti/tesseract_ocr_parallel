@@ -1,0 +1,55 @@
+### Usefull commands
+## -----------------------------------------
+## 1. Build:
+##   sudo docker compose build
+## -----------------------------------------
+## 2. Up:
+##    sudo docker compose up
+## -----------------------------------------
+## 3. Checking logs 
+##   sudo docker compose logs <service-name>
+## ex:
+##   sudo docker compose logs tesseract_ocr_parallel  
+## -----------------------------------------
+## 4. Connecting to container:
+## 4.1: To enter the shell of a specific container that's up and running:
+##      docker compose exec <service-name> bash
+##      ex:
+##      sudo docker compose exec wetesseract_ocr_parallelb bash
+## ---------
+## 4.2: If you want to run a command against a new container that's not currently running, run:
+##      sudo docker compose run --rm tesseract_ocr_parallel bash
+
+version: '2.3'
+services:
+  tesseract_ocr_parallel:
+    tty: true
+    image: tesseract_ocr_parallel:latest
+    container_name: tesseract_ocr_parallel
+    volumes:
+      - .:/app
+    # user: user # as per dockerfile # root
+    build:
+      context: . # build
+      dockerfile: Dockerfile
+    ipc: host
+    restart: 'no' # unless-stopped     # or "always"
+    stdin_open: true
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=all
+      - HOME=/home/user
+      - PATH=/home/user/miniconda/bin:$PATH ## to make python command visible of conda in compose
+      - DEV=true
+      - OCR_LOGGER_LEVEL=DEBUG
+    command: bash
+    entrypoint: ""
+    runtime: nvidia
+    deploy:
+      resources:
+        reservations:
+          devices:
+          - driver: nvidia
+            capabilities:
+              - gpu
+              - utility # nvidia-smi
+              - compute # CUDA. Required to avoid "CUDA version: N/A"
