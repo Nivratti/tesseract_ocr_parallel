@@ -13,7 +13,7 @@ import os
 import glob
 import concurrent.futures
 import multiprocessing
-import time
+from timeit import default_timer as timer
 import psutil
 
 # Only one tesserocr instance per core
@@ -45,7 +45,7 @@ tess_pool = multiprocessing.Pool(processes=total_cpu_cores, initializer=initiali
 
 
 def main():
-    start = time.process_time()
+    start = timer()
     
     img_path = 'images/num.png'
 
@@ -58,7 +58,7 @@ def main():
         print(result)
         pass
 
-    print(f"Elapsed time: {time.process_time() - start}")
+    print(f"Elapsed time: {timer() - start}")
 
 
 if __name__ == "__main__":

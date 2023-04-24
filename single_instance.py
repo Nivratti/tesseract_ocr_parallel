@@ -1,10 +1,9 @@
 """
 """
 import os
-import time
 import cv2
 from tesserocr import PyTessBaseAPI
-
+from timeit import default_timer as timer
 
 def ocr(img_path):
     with PyTessBaseAPI() as api:
@@ -14,7 +13,7 @@ def ocr(img_path):
     return True
 
 def main():
-    start = time.process_time()
+    start = timer()
     
     img_path = 'images/num.png'
 
@@ -27,7 +26,7 @@ def main():
     for i in image_list:
         ocr(img_path)
 
-    print(f"Elapsed time: {time.process_time() - start}")
+    print(f"Elapsed time: {timer() - start}")
 
 
 if __name__ == "__main__":

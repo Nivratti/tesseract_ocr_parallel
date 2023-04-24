@@ -1,8 +1,7 @@
-import time
-
+from timeit import default_timer as timer
 from tesserocr import PyTessBaseAPI
 
-start = time.process_time()
+start = timer()
 
 image = 'images/num.png'
 
@@ -14,4 +13,4 @@ with PyTessBaseAPI() as api:
 # api is automatically finalized when used in a with-statement (context manager).
 # otherwise api.End() should be explicitly called when it's no longer needed.
 
-print(f"Elapsed time: {time.process_time() - start}")
+print(f"Elapsed time: {timer() - start}")
